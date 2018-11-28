@@ -52,21 +52,34 @@ public class Computer implements ActionListener {
                     lastOperation = null;
                     temp1 = temp2 = result = 0;
                     break;
+                case "DEL":
+                    try{
+                        sb.deleteCharAt(sb.length() - 1);
+                        display.addText(sb.toString());
+                        temp1 = Integer.valueOf(sb.toString());
+                        }
+                        catch (Exception e1) {
+
+                        }
+                    break;
                 case "+":
                     firstDigit = true;
                     doLastOperation();
+                    temp1 = Integer.valueOf(sb.toString());
                     temp2 = Integer.valueOf(sb.toString());
                     lastOperation = clickedText;
                     break;
                 case "-":
                     firstDigit = true;
                     doLastOperation();
+                    temp1 = Integer.valueOf(sb.toString());
                     temp2 = Integer.valueOf(sb.toString());
                     lastOperation = clickedText;
                     break;
                 case "*":
                     firstDigit = true;
                     doLastOperation();
+                    temp1 = Integer.valueOf(sb.toString());
                     temp2 = Integer.valueOf(sb.toString());
                     lastOperation = clickedText;
                     break;
@@ -85,9 +98,8 @@ public class Computer implements ActionListener {
                     lastOperation = clickedText;*/
                     break;
                 case "=":
-                    temp2 = 0;
                     doLastOperation();
-                    lastOperation = null;
+                    lastOperation = "=";
                     break;
             }
         }
@@ -110,19 +122,23 @@ public class Computer implements ActionListener {
                 case "%":
                     display.addText("% not implemented");
                     break;
+                case "=":
+                    //temp2 = temp1;
+                    break;
             }
             display.deleteText();
             sb.delete(0, sb.length());
-
-            if(temp1 >= 0)
-            {
+            sb.append(temp1);
+            if(temp1 < 0) {
+                sb.deleteCharAt(0);
+                sb.append("-");
+                display.addText(sb.toString());
+                sb.delete(0, sb.length());
                 sb.append(temp1);
             }
             else {
-                temp1 -= temp1;
-                sb.append(temp1 + "-");
+                display.addText(sb.toString());
             }
-            display.addText(sb.toString());
         }
     }
 }

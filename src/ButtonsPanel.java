@@ -17,7 +17,7 @@ public class ButtonsPanel extends JPanel implements ActionListener {
             buttons.add(new Button(i+""));
         }
 
-        //Naming buttons
+        //Adding text to buttons
         buttons.get(0).setText("C");
         buttons.get(1).setText("DEL");
         buttons.get(2).setText("%");
@@ -39,20 +39,28 @@ public class ButtonsPanel extends JPanel implements ActionListener {
         buttons.get(18).setText(".");
         buttons.get(19).setText("=");
 
-        //Adding functions to buttons
-        buttons.get(12).addActionListener(this);
-        buttons.get(13).addActionListener(this);
-        buttons.get(14).addActionListener(this);
-        buttons.get(17).addActionListener(this);
-        buttons.get(4).addActionListener(this);
-        buttons.get(5).addActionListener(this);
-        buttons.get(6).addActionListener(this);
-        buttons.get(8).addActionListener(this);
-        buttons.get(9).addActionListener(this);
-        buttons.get(10).addActionListener(this);
+        //Adding action listeners to buttons
+
+        buttons.get(4).addActionListener(this); // 7
+        buttons.get(5).addActionListener(this); // 8
+        buttons.get(6).addActionListener(this); // 9
+        buttons.get(8).addActionListener(this); // 4
+        buttons.get(9).addActionListener(this); // 5
+        buttons.get(10).addActionListener(this); // 6
+        buttons.get(12).addActionListener(this); // 1
+        buttons.get(13).addActionListener(this); // 2
+        buttons.get(14).addActionListener(this); // 3
+        buttons.get(17).addActionListener(this); // 0
 
         buttons.get(0).addActionListener(this); // "C"
+        buttons.get(1).addActionListener(this); // "DEL"
+        buttons.get(2).addActionListener(this); // "%"
+        buttons.get(3).addActionListener(this); // "/"
+        buttons.get(7).addActionListener(this); // "*"
+        buttons.get(11).addActionListener(this); // "-"
         buttons.get(15).addActionListener(this); // "+"
+        buttons.get(16).addActionListener(this); // "EXT"
+        buttons.get(18).addActionListener(this); // "."
         buttons.get(19).addActionListener(this); // "="
 
 

@@ -9,6 +9,7 @@ public class Computer implements ActionListener {
     private StringBuilder sb = new StringBuilder();
     private int temp1 = 0, temp2 = 0, result = 0;
     private String lastOperation;
+    private boolean firstDigit = true;
 
     public Computer() {
 
@@ -27,10 +28,13 @@ public class Computer implements ActionListener {
         JButton clicked = (JButton) e.getSource();
         String clickedText = clicked.getText();
 
+
+        //Buttons from 0-9
         try {
             if ((Integer.valueOf(clickedText) >= 0 && Integer.valueOf(clickedText) <= 9)) {
-                if (lastOperation != null) {
+                if (lastOperation != null && firstDigit) {
                     sb.delete(0, sb.length());
+                    firstDigit = false;
                 }
                 sb.append(clickedText);
                 display.addText(sb.toString());
@@ -39,6 +43,8 @@ public class Computer implements ActionListener {
         } catch (Exception exception) {
 
         } finally {
+
+            //Rest of the buttons
             switch (clickedText) {
                 case "C":
                     display.deleteText();
@@ -47,29 +53,76 @@ public class Computer implements ActionListener {
                     temp1 = temp2 = result = 0;
                     break;
                 case "+":
+                    firstDigit = true;
                     doLastOperation();
-                    temp1 = Integer.valueOf(sb.toString());
-                    lastOperation = clickedText;
                     temp2 = Integer.valueOf(sb.toString());
+                    lastOperation = clickedText;
+                    break;
+                case "-":
+                    firstDigit = true;
+                    doLastOperation();
+                    temp2 = Integer.valueOf(sb.toString());
+                    lastOperation = clickedText;
+                    break;
+                case "*":
+                    firstDigit = true;
+                    doLastOperation();
+                    temp2 = Integer.valueOf(sb.toString());
+                    lastOperation = clickedText;
+                    break;
+                case "/":
+                    display.addText("/ not implemented");
+                    /*firstDigit = true;
+                    doLastOperation();
+                    temp2 = Integer.valueOf(sb.toString());
+                    lastOperation = clickedText;*/
+                    break;
+                case "%":
+                    display.addText("%  not implemented");
+                    /*firstDigit = true;
+                    doLastOperation();
+                    temp2 = Integer.valueOf(sb.toString());
+                    lastOperation = clickedText;*/
                     break;
                 case "=":
-                    result = temp1 + temp2;
-                    temp1 = result;
-                    display.addText(result + "");
+                    temp2 = 0;
+                    doLastOperation();
+                    lastOperation = null;
                     break;
             }
         }
     }
     public void doLastOperation() {
-        if (lastOperation != null && lastOperation != "") {
-            if (lastOperation.equals("+")) {
-                temp1 += temp2;
+        if (lastOperation != null) {
+            switch (lastOperation) {
+                case "+":
+                    temp1 += temp2;
+                    break;
+                case "-":
+                    temp1 -= temp2;
+                    break;
+                case "*":
+                    temp1 *= temp2;
+                    break;
+                case "/":
+                    display.addText("/ not implemented");
+                    break;
+                case "%":
+                    display.addText("% not implemented");
+                    break;
             }
             display.deleteText();
             sb.delete(0, sb.length());
-            sb.append(temp1);
+
+            if(temp1 >= 0)
+            {
+                sb.append(temp1);
+            }
+            else {
+                temp1 -= temp1;
+                sb.append(temp1 + "-");
+            }
             display.addText(sb.toString());
         }
-        lastOperation = null;
     }
 }

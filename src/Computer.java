@@ -122,9 +122,6 @@ public class Computer implements ActionListener {
                 case "%":
                     display.addText("% not implemented");
                     break;
-                case "=":
-                    //temp2 = temp1;
-                    break;
             }
             display.deleteText();
             sb.delete(0, sb.length());

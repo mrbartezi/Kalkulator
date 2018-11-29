@@ -31,7 +31,5 @@ public class MainFrame extends JFrame {
         //Adding components
         add(display, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
-
-
     }
 }

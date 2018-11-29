@@ -27,8 +27,6 @@ public class MainFrame extends JFrame {
 
         buttonsPanel.setComputer(computer);
         computer.setDisplay(display);
-        computer.setButtonsPanel(buttonsPanel);
-
 
         //Adding components
         add(display, BorderLayout.NORTH);

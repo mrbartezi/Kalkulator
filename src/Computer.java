@@ -33,6 +33,9 @@ public class Computer implements ActionListener {
                     sb.delete(0, sb.length());
                     firstDigit = false;
                 }
+                if(sb.toString().equals("0")) {
+                    sb.deleteCharAt(0);
+                }
                 sb.append(clickedText);
                 textToDisplay();
                 btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
@@ -50,19 +53,17 @@ public class Computer implements ActionListener {
                     btemp1 = btemp2 = BigDecimal.valueOf(0);
                     break;
                 case "DEL":
-                    try{
-                        if(sb.length() >12 ) {
-                            sb.delete(11,sb.length());
-                        }
-                        else {
+                    try {
+                        if (sb.length() > 12) {
+                            sb.delete(11, sb.length());
+                        } else {
                             sb.deleteCharAt(sb.length() - 1);
                         }
                         textToDisplay();
                         btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                        }
-                        catch (Exception e1) {
+                    } catch (Exception e1) {
 
-                        }
+                    }
                     break;
                 case "+":
                     firstDigit = true;
@@ -93,20 +94,38 @@ public class Computer implements ActionListener {
                     lastOperation = clickedText;
                     break;
                 case "%":
-                    display.addText("%  not implemented");
-                    /*firstDigit = true;
+                    firstDigit = true;
                     doLastOperation();
-                    temp1 = Double.valueOf(sb.toString());
-                    temp2 = Double.valueOf(sb.toString());
-                    lastOperation = clickedText;*/
+
+                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    btemp1 = btemp1.divide(BigDecimal.valueOf(100), MathContext.DECIMAL128);
+                    sb.delete(0, sb.length());
+                    sb.append(btemp1);
+                    textToDisplay();
+
+                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    lastOperation = clickedText;
+                    break;
+                case ".":
+                    /*
+                    doLastOperation();
+                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    lastOperation = clickedText;
+                    */
                     break;
                 case "=":
                     doLastOperation();
-                    lastOperation = "=";
+
+                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    lastOperation = clickedText;
                     break;
             }
         }
     }
+
     public void doLastOperation() {
         if (lastOperation != null) {
             switch (lastOperation) {
@@ -120,17 +139,21 @@ public class Computer implements ActionListener {
                     btemp1 = btemp1.multiply(btemp2);
                     break;
                 case "/":
-                    if(btemp2.equals(BigDecimal.valueOf(0.0))) {
+                    if (btemp2.equals(BigDecimal.valueOf(0.0))) {
                         sb.delete(0, sb.length());
                         lastOperation = null;
                         btemp1 = btemp2 = BigDecimal.valueOf(0);
-                    }
-                    else {
+                    } else {
                         btemp1 = btemp1.divide(btemp2, MathContext.DECIMAL128);
                     }
                     break;
-                case "%":
-                    display.addText("% not implemented");
+                case ".":
+                    /*
+                    btemp2 = btemp2.divide(BigDecimal.valueOf(Math.pow(10, decimalCounter)), MathContext.DECIMAL128);
+                    btemp1 = btemp1.add(btemp2);
+                    break;
+                    */
+                case "=":
                     break;
             }
             sb.delete(0, sb.length());
@@ -140,15 +163,19 @@ public class Computer implements ActionListener {
     }
 
     public void textToDisplay() {
-        loop1: //Loop which deletes .0 if number is an integer.
-        for(int i = 0; i < sb.length(); i++) {
-            if(sb.charAt(i) == (char)69) {
+        loop1:
+        //Loop which deletes .0 if number is an integer.
+        for (int i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == (char) 69) {
                 break loop1;
             }
-            if(sb.charAt(i) == (char)46) {
-                if(sb.length() - i > 12) {
-                    for (int j = i + 1; j < i+12; j++) {
-                        if(sb.charAt(j) != (char) 48) {
+            if (sb.charAt(i) == (char) 46) {
+                if (sb.charAt(i + 1) == (char) 48 && i + 2 == sb.length()) {
+                    sb.delete(i, sb.length());
+                }
+                if (sb.length() - i > 0) {
+                    for (int j = i + 1; j < sb.length(); j++) {
+                        if (sb.charAt(j) != (char) 48) {
                             break loop1;
                         }
                     }
@@ -156,16 +183,17 @@ public class Computer implements ActionListener {
                 }
             }
         }
-        loop2: //Loop which rounds number to integer.
-        for(int i = 0; i < sb.length(); i++) {
+        loop2:
+        //Loop which rounds number to integer.
+        for (int i = 0; i < sb.length(); i++) {
             if (sb.charAt(i) == (char) 46) {
                 if (sb.length() - i > 12) {
-                    for (int j = i + 1; j < i+12; j++) {
-                        if (sb.charAt(i) == (char)69) {
+                    for (int j = i + 1; j < i + 12; j++) {
+                        if (sb.charAt(i) == (char) 69) {
                             System.out.println(sb.charAt(i));
                             break loop2;
                         }
-                        if(sb.charAt(i + 1) != (char) 57) {
+                        if (sb.charAt(i + 1) != (char) 57) {
                             break loop2;
                         }
                         sb.delete(i, sb.length());
@@ -173,27 +201,22 @@ public class Computer implements ActionListener {
                         sb.delete(0, i);
                     }
                 } else {
-                    break loop2;
+                    break;
                 }
             }
         }
-
-        if(sb.length() < 12) {
-            if(btemp1.signum() == -1) {
+        if (sb.length() < 12) {
+            if (btemp1.signum() == -1) {
                 display.addText(sb.substring(1, sb.length()) + "-");
-            }
-            else {
+            } else {
                 display.addText(sb.toString());
             }
-        }
-        else {
-            if(btemp1.signum() == -1) {
-                display.addText(sb.substring(1,13) + "-");
-            }
-            else {
-                display.addText(sb.substring(0,12));
+        } else {
+            if (btemp1.signum() == -1) {
+                display.addText(sb.substring(1, 13) + "-");
+            } else {
+                display.addText(sb.substring(0, 12));
             }
         }
-
     }
 }

@@ -21,7 +21,13 @@ public class Display extends JTextPane {
     }
 
     public void addText(String text){
-        setText(text);
+
+        if(Double.valueOf(text) < 0) {
+            setText(text.substring(1) + "-");
+        }
+        else{
+            setText(text);
+        }
     }
 
     public void deleteText() {

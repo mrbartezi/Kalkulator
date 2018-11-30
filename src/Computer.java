@@ -9,7 +9,7 @@ public class Computer implements ActionListener {
     private Display display;
     private StringBuilder sb = new StringBuilder();
     private String lastOperation;
-    private boolean firstDigit = true;
+    private boolean firstDigit = true, nextNumberNegative = false;
     private BigDecimal btemp1 = BigDecimal.valueOf(0), btemp2 = BigDecimal.valueOf(0);
 
     public Computer() {
@@ -68,29 +68,46 @@ public class Computer implements ActionListener {
                 case "+":
                     firstDigit = true;
                     doLastOperation();
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     break;
                 case "-":
                     firstDigit = true;
                     doLastOperation();
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
+                    /*
+                    if(sb.length() == 0) {
+                        nextNumberNegative = true;
+                    }
+                    */
                     lastOperation = clickedText;
                     break;
                 case "*":
                     firstDigit = true;
                     doLastOperation();
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     break;
                 case "/":
                     firstDigit = true;
                     doLastOperation();
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     break;
                 case "%":
@@ -103,23 +120,29 @@ public class Computer implements ActionListener {
                     sb.append(btemp1);
                     textToDisplay();
 
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     break;
                 case ".":
                     /*
                     doLastOperation();
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     */
                     break;
                 case "=":
                     doLastOperation();
 
-                    btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
-                    btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    if(sb.length() > 0) {
+                        btemp1 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                        btemp2 = BigDecimal.valueOf(Double.valueOf(sb.toString()));
+                    }
                     lastOperation = clickedText;
                     break;
             }
@@ -134,6 +157,12 @@ public class Computer implements ActionListener {
                     break;
                 case "-":
                     btemp1 = btemp1.subtract(btemp2);
+                    /*
+                    if(nextNumberNegative) {
+                        btemp1 = btemp1.subtract(btemp2);
+                        nextNumberNegative = false;
+                    }
+                    */
                     break;
                 case "*":
                     btemp1 = btemp1.multiply(btemp2);
@@ -206,17 +235,9 @@ public class Computer implements ActionListener {
             }
         }
         if (sb.length() < 12) {
-            if (btemp1.signum() == -1) {
-                display.addText(sb.substring(1, sb.length()) + "-");
-            } else {
-                display.addText(sb.toString());
-            }
+            display.addText(sb.toString());
         } else {
-            if (btemp1.signum() == -1) {
-                display.addText(sb.substring(1, 13) + "-");
-            } else {
-                display.addText(sb.substring(0, 12));
-            }
+            display.addText(sb.substring(0, 12));
         }
     }
 }

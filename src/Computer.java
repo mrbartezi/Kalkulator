@@ -192,19 +192,15 @@ public class Computer implements ActionListener {
     }
 
     public void textToDisplay() {
-        loop1:
-        //Loop which deletes .0 if number is an integer.
+        loop1: //Function which deletes .0 if number is an integer.
         for (int i = 0; i < sb.length(); i++) {
-            if (sb.charAt(i) == (char) 69) {
+            if (sb.charAt(i) == (char) 69) { //(char)69 = "E"
                 break loop1;
             }
-            if (sb.charAt(i) == (char) 46) {
-                if (sb.charAt(i + 1) == (char) 48 && i + 2 == sb.length()) {
-                    sb.delete(i, sb.length());
-                }
+            if (sb.charAt(i) == (char) 46) { //(char)46 = "."
                 if (sb.length() - i > 0) {
                     for (int j = i + 1; j < sb.length(); j++) {
-                        if (sb.charAt(j) != (char) 48) {
+                        if (sb.charAt(j) != (char) 48) { //(char)48 = "0"
                             break loop1;
                         }
                     }
@@ -212,23 +208,42 @@ public class Computer implements ActionListener {
                 }
             }
         }
-        loop2:
-        //Loop which rounds number to integer.
+        loop2: //Function which deletes unnecessary zeros in decimal representation of a fraction
         for (int i = 0; i < sb.length(); i++) {
-            if (sb.charAt(i) == (char) 46) {
+            if (sb.charAt(i) == (char) 69) { //(char)69 = "E"
+                break;
+            }
+            if (sb.charAt(i) == (char) 46) { //(char)46 = "."
+                if (sb.length() - i > 0) {
+                    childloop2:
+                    for (int j = i + 1; j < sb.length(); j++) {
+                        if (sb.charAt(j) == (char) 48) { //(char)48 = "0"
+                            for (int k = j + 1; k < sb.length(); k++) {
+                                if(sb.charAt(k) != (char) 48) {
+                                    continue childloop2;
+                                }
+                            }
+                            sb.delete(j, sb.length());
+                        }
+                    }
+                }
+            }
+        }
+        loop3: //Function which rounds number to integer.
+        for (int i = 0; i < sb.length(); i++) {
+            if (sb.charAt(i) == (char) 46) { //(char)46 = "."
                 if (sb.length() - i > 12) {
                     for (int j = i + 1; j < i + 12; j++) {
-                        if (sb.charAt(i) == (char) 69) {
-                            System.out.println(sb.charAt(i));
-                            break loop2;
+                        if (sb.charAt(j) == (char) 69) { //(char)69 = "E"
+                            break loop3;
                         }
-                        if (sb.charAt(i + 1) != (char) 57) {
-                            break loop2;
+                        if (sb.charAt(j) != (char) 57) { //(char)57 = "9"
+                            break loop3;
                         }
-                        sb.delete(i, sb.length());
-                        sb.append(Integer.valueOf(sb.toString()) + 1);
-                        sb.delete(0, i);
                     }
+                    sb.delete(i, sb.length());
+                    sb.append(Integer.valueOf(sb.toString()) + 1);
+                    sb.delete(0, i);
                 } else {
                     break;
                 }

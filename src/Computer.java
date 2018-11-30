@@ -186,7 +186,7 @@ public class Computer implements ActionListener {
                     break;
             }
             sb.delete(0, sb.length());
-            sb.append(btemp1);
+            sb.append(btemp1.toPlainString());
             textToDisplay();
         }
     }
@@ -195,7 +195,7 @@ public class Computer implements ActionListener {
         loop1: //Function which deletes .0 if number is an integer.
         for (int i = 0; i < sb.length(); i++) {
             if (sb.charAt(i) == (char) 69) { //(char)69 = "E"
-                break loop1;
+                break;
             }
             if (sb.charAt(i) == (char) 46) { //(char)46 = "."
                 if (sb.length() - i > 0) {

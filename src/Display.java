@@ -10,6 +10,7 @@ public class Display extends JTextPane {
         Font font = new Font("Tahoma", Font.PLAIN,26);
         setFont(font);
 
+
         setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
         Dimension dim = getPreferredSize();
